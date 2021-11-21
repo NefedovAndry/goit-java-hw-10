@@ -3,11 +3,10 @@
 Возвращает список этих строк в верхнем регистре и отсортированные по убыванию (от Z до А).
 */
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class ListReform {
 
@@ -16,15 +15,11 @@ public class ListReform {
 
     public static void main(String[] args) {
 
-        UnaryOperator<List<String>> listReforms = list -> {
-            List<String> result = new ArrayList<>();
-            for (String str : list) {
-                result.add(str.toUpperCase());
-            }
-            result.sort(Comparator.reverseOrder());
-            return result;
-        };
+        List<String> result = LIST_OF_NAMES.stream()
+                .map(String::toUpperCase)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
 
-        System.out.println(listReforms.apply(LIST_OF_NAMES));
+        System.out.println(result);
     }
 }
