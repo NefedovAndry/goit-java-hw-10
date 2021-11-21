@@ -23,7 +23,8 @@ public class InfinityStreamOfRandomNumbers {
 
         long seed = 1L;
 
-        List<Long> result = infinityStreamOfRandomNumbers(seed, A, C, M).limit(3)
+        List<Long> result = infinityStreamOfRandomNumbers(seed, A, C, M)
+                .limit(3)
                 .collect(Collectors.toList());
 
         System.out.println(result);
