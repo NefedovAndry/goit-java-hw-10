@@ -5,7 +5,7 @@
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
+import java.util.stream.IntStream;
 
 public class GettingOddNames {
 
@@ -14,18 +14,15 @@ public class GettingOddNames {
 
     public static void main(String[] args) {
 
-        Function<List<String>, String> getOddNames = list -> {
-            StringBuilder result = new StringBuilder();
-            for (int i = 1; i < list.size(); i += 2) {
-                result.append(i)
-                        .append(". ")
-                        .append(list.get(i))
-                        .append(", ");
-            }
-            result.delete(result.length() - 2, result.length());
-            return result.toString();
-        };
+        StringBuilder resultString = IntStream.range(0, LIST_OF_NAMES.size() - 1)
+                .filter(i -> i % 2 != 0)
+                .mapToObj((i) -> i + ". " + LIST_OF_NAMES.get(i))
+                .collect(StringBuilder::new,
+                        (c, e) -> c.append(e).append(", "),
+                        StringBuilder::append);
+        resultString.deleteCharAt(resultString.length() - 1);
+        resultString.deleteCharAt(resultString.length() - 1);
 
-        System.out.println(getOddNames.apply(LIST_OF_NAMES));
+        System.out.println(resultString);
     }
 }
