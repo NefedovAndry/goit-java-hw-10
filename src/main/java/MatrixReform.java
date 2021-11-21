@@ -5,10 +5,7 @@
 "0, 1, 2, 4, 5"
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class MatrixReform {
 
@@ -16,31 +13,18 @@ public class MatrixReform {
 
     public static void main(String[] args) {
 
-        List<String> output = new ArrayList<>();
-
-        for (String str : INPUT_ARRAY) {
-            String[] buffer = str.split(", ");
-            output.addAll(Arrays.asList(buffer));
-        }
-
-        List<Integer> numbers = new ArrayList<>();
-
-        for (String str : output) {
-            numbers.add(Integer.parseInt(str));
-        }
-
-        numbers.sort(Comparator.naturalOrder());
-
-        StringBuilder result = new StringBuilder();
-
-        for (Integer elements : numbers) {
-            result.append(elements)
-                    .append(", ");
-        }
+        ArrayList<String> output = new ArrayList<>(Arrays.asList(INPUT_ARRAY));
+        StringBuilder result = output.stream()
+                .map(str -> str.split(", "))
+                .map(Arrays::asList)
+                .flatMap(Collection::stream)
+                .mapToInt(Integer::parseInt)
+                .sorted()
+                .collect(StringBuilder::new, (str, e) -> str.append(e).append(", "), StringBuilder::append);
 
         result.deleteCharAt(result.length() - 1);
         result.deleteCharAt(result.length() - 1);
+
         System.out.println(result);
     }
-
 }
