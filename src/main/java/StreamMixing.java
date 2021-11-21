@@ -38,20 +38,18 @@ public class StreamMixing {
         List<Integer> result = zippingStream.collect(Collectors.toList());
 
         System.out.println(result);
-
     }
 
     public static <T> Stream<T> zip(Stream<T> first, Stream<T> second) {
-        Stream.Builder<T> streamBuilder = Stream.<T>builder();
-        long firstSize = first.count();
-        long secondSize = second.count();
+        List<T> firstToList = first.collect(Collectors.toList());
+        List<T> secondToList = second.collect(Collectors.toList());
+        List<T> result = new ArrayList<>();
 
-        long smallestStreamSize = Math.min(firstSize, secondSize);
-        for (int i = 0; i < smallestStreamSize ; i++) {
-            streamBuilder
-                    .add((T) first.skip(i).limit(1))
-                    .add(second.skip(i).findFirst().get());
+        long smallestStreamSize = Math.min(firstToList.size(), secondToList.size());
+        for (int i = 0; i < smallestStreamSize; i++) {
+            result.add(firstToList.get(i));
+            result.add(secondToList.get(i));
         }
-        return streamBuilder.build();
+        return result.stream();
     }
 }
